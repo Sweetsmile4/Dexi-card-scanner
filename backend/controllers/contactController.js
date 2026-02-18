@@ -36,7 +36,7 @@ exports.getContacts = async (req, res, next) => {
 
     const contacts = await Contact.find(query)
       .populate('tags')
-      .populate('cardId', 'imageUrl createdAt')
+      .populate('cardId', 'imagePath createdAt')
       .sort({ createdAt: -1 })
       .limit(limit * 1)
       .skip((page - 1) * limit)

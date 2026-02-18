@@ -9,15 +9,7 @@ const cardSchema = new mongoose.Schema({
   },
   imagePath: {
     type: String,
-    default: ''
-  },
-  imageUrl: {
-    type: String,
-    default: ''
-  },
-  imageKey: {
-    type: String,
-    default: ''
+    required: [true, 'Image path is required']
   },
   ocrText: {
     type: String,

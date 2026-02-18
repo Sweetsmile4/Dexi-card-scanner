@@ -19,7 +19,9 @@ export default function Login() {
       toast.success('Login successful!');
       navigate(user.role === 'admin' ? '/admin' : '/dashboard');
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Login failed');
+      console.error('Login failed:', error);
+      const errorMessage = error.response?.data?.message || error.message || 'Login failed. Please check your credentials and try again.';
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
