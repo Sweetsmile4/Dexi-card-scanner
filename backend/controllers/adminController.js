@@ -3,6 +3,7 @@ const Card = require('../models/Card');
 const Contact = require('../models/Contact');
 const ActivityLog = require('../models/ActivityLog');
 const activityLogger = require('../services/activityLogger');
+const storageService = require('../services/storageService');
 const fs = require('fs').promises;
 
 // @desc    Get dashboard statistics
@@ -242,7 +243,13 @@ exports.deleteUser = async (req, res, next) => {
     // Delete user's cards and associated files
     const cards = await Card.find({ userId: user._id });
     for (const card of cards) {
-      await fs.unlink(card.imagePath).catch(err => console.error('File deletion error:', err));
+      if (card.imageKey) {
+        await storageService.removeCardImage(card.imageKey).catch(err => console.error('Storage deletion error:', err));
+      }
+
+      if (card.imagePath) {
+        await fs.unlink(card.imagePath).catch(err => console.error('File deletion error:', err));
+      }
     }
     await Card.deleteMany({ userId: user._id });
 
@@ -320,8 +327,15 @@ exports.deleteCard = async (req, res, next) => {
     // Delete associated contacts
     await Contact.deleteMany({ cardId: card._id });
 
-    // Delete image file
-    await fs.unlink(card.imagePath).catch(err => console.error('File deletion error:', err));
+    // Delete image from storage
+    if (card.imageKey) {
+      await storageService.removeCardImage(card.imageKey).catch(err => console.error('Storage deletion error:', err));
+    }
+
+    // Delete local image file if present
+    if (card.imagePath) {
+      await fs.unlink(card.imagePath).catch(err => console.error('File deletion error:', err));
+    }
 
     // Delete card
     await card.deleteOne();

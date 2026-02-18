@@ -2,6 +2,7 @@ const Card = require('../models/Card');
 const Contact = require('../models/Contact');
 const ocrService = require('../services/ocrService');
 const activityLogger = require('../services/activityLogger');
+const storageService = require('../services/storageService');
 const path = require('path');
 const fs = require('fs').promises;
 
@@ -19,11 +20,26 @@ exports.uploadCard = async (req, res, next) => {
 
     const userId = req.user.id;
     const imagePath = req.file.path;
+    let uploadResult;
+
+    try {
+      uploadResult = await storageService.uploadCardImage({
+        filePath: imagePath,
+        fileName: req.file.filename,
+        userId,
+        contentType: req.file.mimetype
+      });
+    } catch (uploadError) {
+      await fs.unlink(imagePath).catch(err => console.error('File cleanup error:', err));
+      return next(uploadError);
+    }
 
     // Create card record
     const card = await Card.create({
       userId,
       imagePath,
+      imageUrl: uploadResult.publicUrl,
+      imageKey: uploadResult.path,
       status: 'pending'
     });
 
@@ -113,6 +129,8 @@ async function processCardOCR(cardId, imagePath, userId) {
       status: 'failed',
       errorMessage: error.message
     });
+  } finally {
+    await fs.unlink(imagePath).catch(err => console.error('File cleanup error:', err));
   }
 }
 
@@ -210,8 +228,15 @@ exports.deleteCard = async (req, res, next) => {
     // Delete associated contacts
     await Contact.deleteMany({ cardId: card._id });
 
-    // Delete image file
-    await fs.unlink(card.imagePath).catch(err => console.error('File deletion error:', err));
+    // Delete image from storage
+    if (card.imageKey) {
+      await storageService.removeCardImage(card.imageKey).catch(err => console.error('Storage deletion error:', err));
+    }
+
+    // Delete local image file if present
+    if (card.imagePath) {
+      await fs.unlink(card.imagePath).catch(err => console.error('File deletion error:', err));
+    }
 
     // Delete card
     await card.deleteOne();
@@ -254,7 +279,18 @@ exports.getCardImage = async (req, res, next) => {
       });
     }
 
-    // Send image file
+    if (card.imageUrl) {
+      return res.redirect(card.imageUrl);
+    }
+
+    if (!card.imagePath) {
+      return res.status(404).json({
+        success: false,
+        message: 'Card image not available'
+      });
+    }
+
+    // Send image file (legacy local storage)
     res.sendFile(path.resolve(card.imagePath));
   } catch (error) {
     next(error);
