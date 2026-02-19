@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { ensureAdminUser } = require('../services/adminBootstrapService');
 
 const connectDB = async () => {
   try {
@@ -10,6 +11,8 @@ const connectDB = async () => {
 
     console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
     console.log(`📊 Database: ${conn.connection.name}`);
+
+    await ensureAdminUser();
   } catch (error) {
     console.error(`❌ MongoDB Connection Error: ${error.message}`);
     process.exit(1);
