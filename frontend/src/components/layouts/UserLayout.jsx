@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { LayoutDashboard, Upload, Users, Tag, LogOut, CreditCard } from 'lucide-react';
+import { LayoutDashboard, Upload, FileDown, UserCircle2, LogOut } from 'lucide-react';
 
 export default function UserLayout({ children }) {
   const location = useLocation();
@@ -15,53 +15,69 @@ export default function UserLayout({ children }) {
 
   const navItems = [
     { path: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
-    { path: '/upload', icon: Upload, label: 'Upload Card' },
-    { path: '/contacts', icon: Users, label: 'Contacts' },
-    { path: '/tags', icon: Tag, label: 'Tags' },
+    { path: '/upload', icon: Upload, label: 'OCR Upload' },
+    { path: '/contacts', icon: FileDown, label: 'Export' },
+    { path: '/tags', icon: UserCircle2, label: 'Profile' },
   ];
 
+  const userName = user?.name || 'User';
+
   return (
-    <div className="min-h-screen bg-gray-50">
-      <nav className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
-            <div className="flex items-center">
-              <CreditCard className="w-8 h-8 text-primary-600" />
-              <span className="ml-2 text-xl font-bold text-gray-900">Dexi</span>
-            </div>
-            <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-600">{user?.name}</span>
-              <button onClick={handleLogout} className="btn btn-outline flex items-center space-x-2">
-                <LogOut className="w-4 h-4" />
-                <span>Logout</span>
-              </button>
+    <div className="min-h-screen bg-[#efefef] [font-family:'Poppins',ui-sans-serif,system-ui,sans-serif]">
+      <header className="h-[76px] border-b border-[#4b128f] bg-gradient-to-r from-[#5310ac] via-[#5e18bd] to-[#6b25d0] shadow-[0_6px_18px_rgba(43,14,93,0.32)]">
+        <div className="flex h-full items-center justify-between px-5 sm:px-10">
+          <div className="flex items-center gap-3 text-white">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-sm font-extrabold text-[#278fe5]">De</div>
+            <div>
+                <p className="text-[40px] font-semibold leading-none">Dexi</p>
+                <p className="mt-1 text-xs text-[#e2c8ff]">AI Card Digitizer</p>
             </div>
           </div>
-        </div>
-      </nav>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex gap-6">
-          <aside className="w-64 flex-shrink-0">
-            <nav className="space-y-1">
-              {navItems.map((item) => (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  className={`flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
-                    location.pathname === item.path
-                      ? 'bg-primary-50 text-primary-700'
-                      : 'text-gray-700 hover:bg-gray-100'
-                  }`}
-                >
-                  <item.icon className="w-5 h-5 mr-3" />
-                  {item.label}
-                </Link>
-              ))}
-            </nav>
-          </aside>
-          <main className="flex-1">{children}</main>
+          <div className="flex items-center gap-3 text-white">
+              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-black text-xs font-semibold">U</div>
+              <span className="text-[32px] font-semibold">{userName}</span>
+          </div>
         </div>
+      </header>
+
+      <div className="flex min-h-[calc(100vh-5rem)]">
+        <aside className="w-[245px] shrink-0 bg-gradient-to-b from-[#4c0aa5] via-[#6318c8] to-[#9252f8] text-white shadow-[inset_-1px_0_0_rgba(255,255,255,0.16)]">
+          <div className="flex h-full flex-col px-4 py-6">
+            <nav className="space-y-2">
+              {navItems.map((item) => {
+                const isActive = location.pathname === item.path;
+
+                return (
+                  <Link
+                    key={item.path}
+                    to={item.path}
+                    className={`flex items-center rounded-lg px-5 py-3.5 text-[34px] font-medium transition ${
+                      isActive
+                        ? 'bg-[#9e57ff] text-white shadow-[0_8px_18px_rgba(123,50,243,0.45)]'
+                        : 'text-[#f3e8ff] hover:bg-white/10'
+                    }`}
+                  >
+                    <item.icon className="mr-3 h-5 w-5" />
+                    {item.label}
+                  </Link>
+                );
+              })}
+            </nav>
+
+            <button
+              onClick={handleLogout}
+              className="mt-auto flex items-center rounded-lg px-5 py-3.5 text-[34px] font-medium text-[#f3e8ff] transition hover:bg-white/10"
+            >
+              <LogOut className="mr-3 h-5 w-5" />
+              Sign out
+            </button>
+          </div>
+        </aside>
+
+        <main className="flex-1 px-5 py-6 sm:px-8 sm:py-8">
+          <div className="mx-auto max-w-[1280px]">{children}</div>
+        </main>
       </div>
     </div>
   );

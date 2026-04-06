@@ -41,49 +41,83 @@ export default function UploadCard() {
     }
   };
 
+  const handleDrop = (e) => {
+    e.preventDefault();
+    const droppedFile = e.dataTransfer.files?.[0];
+    if (!droppedFile) return;
+    if (!droppedFile.type.startsWith('image/')) {
+      toast.error('Please upload an image file');
+      return;
+    }
+
+    setFile(droppedFile);
+    setPreview(URL.createObjectURL(droppedFile));
+  };
+
   return (
-    <div className="max-w-2xl mx-auto">
-      <h1 className="text-3xl font-bold text-gray-900 mb-6">Upload Visiting Card</h1>
-      
-      <div className="card">
-        <div className="border-2 border-dashed border-gray-300 rounded-lg p-12 text-center">
-          {preview ? (
-            <div className="space-y-4">
-              <img src={preview} alt="Preview" className="max-h-64 mx-auto rounded-lg" />
-              <button onClick={() => { setFile(null); setPreview(null); }} className="btn btn-outline">
+    <div className="space-y-8">
+      <h1 className="text-[50px] font-bold text-[#11121a]">OCR Upload Center</h1>
+
+      <section
+        className="mx-auto max-w-5xl rounded-[2.2rem] border-2 border-dashed border-[#adadb4] bg-[#f3f3f4] px-6 py-10 text-center"
+        onDragOver={(e) => e.preventDefault()}
+        onDrop={handleDrop}
+      >
+        {preview ? (
+          <div className="space-y-5">
+            <img src={preview} alt="Preview" className="mx-auto max-h-80 rounded-xl border border-[#ceced5]" />
+              <p className="text-2xl font-medium text-[#3f3f4d]">Ready to process this image</p>
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              <button
+                onClick={() => {
+                  setFile(null);
+                  setPreview(null);
+                }}
+                  className="rounded-xl border border-[#b8b8c1] px-5 py-3 text-xl font-medium text-[#4e4e5c] transition hover:bg-white"
+              >
                 Choose Different Image
               </button>
+              <button
+                onClick={handleUpload}
+                disabled={uploading}
+                  className="inline-flex items-center rounded-xl bg-gradient-to-r from-[#5f16bf] to-[#8c3ffb] px-6 py-3 text-xl font-semibold text-white shadow-[0_10px_24px_rgba(99,38,184,0.28)] transition hover:brightness-105 disabled:opacity-50"
+              >
+                {uploading ? 'Uploading...' : 'Upload and Process'}
+              </button>
             </div>
-          ) : (
-            <div>
-              <Upload className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-              <p className="text-lg text-gray-600 mb-4">Click to upload or drag and drop</p>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleFileChange}
-                className="hidden"
-                id="file-upload"
-              />
-              <label htmlFor="file-upload" className="btn btn-primary cursor-pointer">
-                Select Image
-              </label>
+          </div>
+        ) : (
+          <div>
+            <div className="mx-auto mb-4 flex h-24 w-24 items-center justify-center rounded-xl bg-[#7a20f3] text-white shadow-[0_8px_24px_rgba(96,29,189,0.35)]">
+              <Upload className="h-11 w-11" />
             </div>
-          )}
-        </div>
+              <p className="text-[38px] font-semibold text-[#1a1a23]">Drag & drop card images here</p>
+              <p className="mt-2 text-[33px] text-[#666672]">or click to browse files</p>
+              <p className="mt-4 text-[29px] text-[#777781]">Supports JPG, PNG, WEBP • Max 10MB per file • Bulk upload supported</p>
 
-        {file && (
-          <div className="mt-6">
-            <button
-              onClick={handleUpload}
-              disabled={uploading}
-              className="w-full btn btn-primary py-3 disabled:opacity-50"
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleFileChange}
+              className="hidden"
+              id="file-upload"
+            />
+            <label
+              htmlFor="file-upload"
+                className="mx-auto mt-6 inline-flex cursor-pointer items-center rounded-xl border border-[#b8b8c1] bg-white px-5 py-3 text-xl font-medium text-[#4e4e5c] transition hover:bg-[#fafafa]"
             >
-              {uploading ? 'Uploading...' : 'Upload and Process'}
-            </button>
+              Browse File
+            </label>
           </div>
         )}
-      </div>
+      </section>
+
+      {uploading && (
+        <div className="flex items-center justify-center gap-2 text-[#5f16bf]">
+          <CheckCircle className="h-5 w-5" />
+            <span className="text-lg font-medium">Processing OCR...</span>
+        </div>
+      )}
     </div>
   );
 }
