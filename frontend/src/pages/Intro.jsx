@@ -46,7 +46,7 @@ const testimonials = [
 export default function Intro() {
   return (
     <div className="min-h-screen bg-white text-[#1f1f29] [font-family:'Poppins',ui-sans-serif,system-ui,sans-serif]">
-      <div className="mx-auto w-full max-w-[1200px] px-0 py-0">
+      <div className="w-full px-0 py-0">
         <div className="overflow-hidden bg-white">
           <div className="bg-gradient-to-r from-[#4f0ca7] via-[#5d12bb] to-[#6a1dd0] text-white">
             <header className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4 sm:px-9">
