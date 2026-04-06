@@ -4,6 +4,7 @@ import { Toaster } from 'react-hot-toast';
 import { AuthProvider, useAuth } from './context/AuthContext';
 
 // Auth pages
+import Intro from './pages/Intro';
 import Login from './pages/Login';
 import Register from './pages/Register';
 
@@ -54,6 +55,7 @@ function AppRoutes() {
   return (
     <Routes>
       {/* Public routes */}
+      <Route path="/" element={isAuthenticated ? <Navigate to={isAdmin ? "/admin" : "/dashboard"} /> : <Intro />} />
       <Route path="/login" element={isAuthenticated ? <Navigate to={isAdmin ? "/admin" : "/dashboard"} /> : <Login />} />
       <Route path="/register" element={isAuthenticated ? <Navigate to="/dashboard" /> : <Register />} />
 
@@ -71,8 +73,7 @@ function AppRoutes() {
       <Route path="/admin/logs" element={<AdminRoute><AdminLayout><ActivityLogs /></AdminLayout></AdminRoute>} />
 
       {/* Default redirect */}
-      <Route path="/" element={<Navigate to={isAuthenticated ? (isAdmin ? "/admin" : "/dashboard") : "/login"} />} />
-      <Route path="*" element={<Navigate to="/" />} />
+      <Route path="*" element={<Navigate to={isAuthenticated ? (isAdmin ? "/admin" : "/dashboard") : "/"} />} />
     </Routes>
   );
 }
