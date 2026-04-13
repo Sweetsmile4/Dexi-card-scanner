@@ -1,6 +1,7 @@
 const Card = require('../models/Card');
 const Contact = require('../models/Contact');
 const ocrService = require('../services/ocrService');
+const imageOptimizationService = require('../services/imageOptimizationService');
 const activityLogger = require('../services/activityLogger');
 const path = require('path');
 const fs = require('fs').promises;
@@ -53,11 +54,26 @@ exports.uploadCard = async (req, res, next) => {
   }
 };
 
-// Process OCR in background
+// Process OCR in background with image optimization
 async function processCardOCR(cardId, imagePath, userId) {
+  let optimizedImagePath = imagePath;
+  
   try {
-    // Extract text using OCR
-    const ocrResult = await ocrService.extractText(imagePath);
+    console.log('🔄 Starting card OCR processing...');
+    const startTime = Date.now();
+
+    // Step 1: Optimize image for faster OCR processing
+    console.log('📷 Step 1: Optimizing image...');
+    const optimizationResult = await imageOptimizationService.optimizeImage(imagePath);
+    optimizedImagePath = optimizationResult.optimizedPath;
+    
+    if (optimizationResult.reduction > 0) {
+      console.log(`   ✅ Image optimized: ${optimizationResult.reduction.toFixed(1)}% size reduction`);
+    }
+
+    // Step 2: Extract text using OCR on optimized image
+    console.log('📖 Step 2: Running OCR...');
+    const ocrResult = await ocrService.extractText(optimizedImagePath);
 
     if (!ocrResult.success) {
       await Card.findByIdAndUpdate(cardId, {
@@ -76,28 +92,36 @@ async function processCardOCR(cardId, imagePath, userId) {
       return;
     }
 
-    // Update card with OCR text
+    // Step 3: Update card with OCR text
     await Card.findByIdAndUpdate(cardId, {
       ocrText: ocrResult.text,
       status: 'processed'
     });
 
-    // Parse contact information
+    // Step 4: Parse contact information
+    console.log('👤 Step 3: Parsing contact information...');
     const contactData = ocrService.parseContactInfo(ocrResult.text);
 
-    // Create contact record
+    // Step 5: Create contact record
     const contact = await Contact.create({
       userId,
       cardId,
       ...contactData
     });
 
+    const totalTime = Date.now() - startTime;
+    console.log(`  ✅ Contact created successfully in ${totalTime}ms`);
+
     await activityLogger.log({
       userId,
       action: 'ocr_processed',
       entityType: 'card',
       entityId: cardId,
-      metadata: { contactId: contact._id, confidence: ocrResult.confidence }
+      metadata: { 
+        contactId: contact._id, 
+        confidence: ocrResult.confidence,
+        processingTime: totalTime
+      }
     });
 
     await activityLogger.log({
@@ -107,12 +131,22 @@ async function processCardOCR(cardId, imagePath, userId) {
       entityId: contact._id
     });
 
+    // Cleanup temporary optimized image if different from original
+    if (optimizedImagePath !== imagePath) {
+      await imageOptimizationService.cleanup(optimizedImagePath);
+    }
+
   } catch (error) {
-    console.error('OCR Processing error:', error);
+    console.error('❌ OCR Processing error:', error);
     await Card.findByIdAndUpdate(cardId, {
       status: 'failed',
       errorMessage: error.message
     });
+    
+    // Cleanup temporary optimized image on error
+    if (optimizedImagePath !== imagePath) {
+      await imageOptimizationService.cleanup(optimizedImagePath).catch(() => {});
+    }
   }
 }
 
@@ -156,7 +190,7 @@ exports.getCards = async (req, res, next) => {
 // @access  Private
 exports.getCard = async (req, res, next) => {
   try {
-    const card = await Card.findById(req.params.id);
+    const card = await Card.findById(req.params.id).lean();
 
     if (!card) {
       return res.status(404).json({
@@ -173,8 +207,8 @@ exports.getCard = async (req, res, next) => {
       });
     }
 
-    // Get associated contact
-    const contact = await Card.findOne({ cardId: card._id }).populate('tags');
+    // Get associated contact - FIX: Query Contact model, not Card
+    const contact = await Contact.findOne({ cardId: card._id }).populate('tags').lean();
 
     res.status(200).json({
       success: true,

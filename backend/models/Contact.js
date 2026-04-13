@@ -71,6 +71,7 @@ const contactSchema = new mongoose.Schema({
 contactSchema.index({ userId: 1, createdAt: -1 });
 contactSchema.index({ userId: 1, isFavorite: -1 });
 contactSchema.index({ userId: 1, company: 1 });
+contactSchema.index({ cardId: 1 }); // For fast card detail lookup
 contactSchema.index({ fullName: 'text', company: 'text', designation: 'text' });
 
 module.exports = mongoose.model('Contact', contactSchema);
