@@ -56,7 +56,7 @@ export default function UploadCard() {
 
   return (
     <div className="space-y-8">
-      <h1 className="text-[50px] font-bold text-[#11121a]">OCR Upload Center</h1>
+      <h1 className="text-3xl font-bold text-[#11121a]">OCR Upload Center</h1>
 
       <section
         className="mx-auto max-w-5xl rounded-[2.2rem] border-2 border-dashed border-[#adadb4] bg-[#f3f3f4] px-6 py-10 text-center"
@@ -66,21 +66,21 @@ export default function UploadCard() {
         {preview ? (
           <div className="space-y-5">
             <img src={preview} alt="Preview" className="mx-auto max-h-80 rounded-xl border border-[#ceced5]" />
-              <p className="text-2xl font-medium text-[#3f3f4d]">Ready to process this image</p>
+              <p className="text-lg font-medium text-[#3f3f4d]">Ready to process this image</p>
             <div className="flex flex-wrap items-center justify-center gap-3">
               <button
                 onClick={() => {
                   setFile(null);
                   setPreview(null);
                 }}
-                  className="rounded-xl border border-[#b8b8c1] px-5 py-3 text-xl font-medium text-[#4e4e5c] transition hover:bg-white"
+                  className="rounded-xl border border-[#b8b8c1] px-5 py-3 text-base font-medium text-[#4e4e5c] transition hover:bg-white"
               >
                 Choose Different Image
               </button>
               <button
                 onClick={handleUpload}
                 disabled={uploading}
-                  className="inline-flex items-center rounded-xl bg-gradient-to-r from-[#5f16bf] to-[#8c3ffb] px-6 py-3 text-xl font-semibold text-white shadow-[0_10px_24px_rgba(99,38,184,0.28)] transition hover:brightness-105 disabled:opacity-50"
+                  className="inline-flex items-center rounded-xl bg-gradient-to-r from-[#5f16bf] to-[#8c3ffb] px-6 py-3 text-base font-semibold text-white shadow-[0_10px_24px_rgba(99,38,184,0.28)] transition hover:brightness-105 disabled:opacity-50"
               >
                 {uploading ? 'Uploading...' : 'Upload and Process'}
               </button>
@@ -91,9 +91,9 @@ export default function UploadCard() {
             <div className="mx-auto mb-4 flex h-24 w-24 items-center justify-center rounded-xl bg-[#7a20f3] text-white shadow-[0_8px_24px_rgba(96,29,189,0.35)]">
               <Upload className="h-11 w-11" />
             </div>
-              <p className="text-[38px] font-semibold text-[#1a1a23]">Drag & drop card images here</p>
-              <p className="mt-2 text-[33px] text-[#666672]">or click to browse files</p>
-              <p className="mt-4 text-[29px] text-[#777781]">Supports JPG, PNG, WEBP • Max 10MB per file • Bulk upload supported</p>
+              <p className="text-xl font-semibold text-[#1a1a23]">Drag & drop card images here</p>
+              <p className="mt-2 text-base text-[#666672]">or click to browse files</p>
+              <p className="mt-4 text-sm text-[#777781]">Supports JPG, PNG, WEBP • Max 10MB per file • Bulk upload supported</p>
 
             <input
               type="file"
@@ -104,7 +104,7 @@ export default function UploadCard() {
             />
             <label
               htmlFor="file-upload"
-                className="mx-auto mt-6 inline-flex cursor-pointer items-center rounded-xl border border-[#b8b8c1] bg-white px-5 py-3 text-xl font-medium text-[#4e4e5c] transition hover:bg-[#fafafa]"
+                className="mx-auto mt-6 inline-flex cursor-pointer items-center rounded-xl border border-[#b8b8c1] bg-white px-5 py-3 text-base font-medium text-[#4e4e5c] transition hover:bg-[#fafafa]"
             >
               Browse File
             </label>
@@ -115,7 +115,7 @@ export default function UploadCard() {
       {uploading && (
         <div className="flex items-center justify-center gap-2 text-[#5f16bf]">
           <CheckCircle className="h-5 w-5" />
-            <span className="text-lg font-medium">Processing OCR...</span>
+            <span className="text-base font-medium">Processing OCR...</span>
         </div>
       )}
     </div>

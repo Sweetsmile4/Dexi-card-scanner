@@ -267,6 +267,31 @@ exports.exportVCard = async (req, res, next) => {
   }
 };
 
+// @desc    Export contacts to XLSX
+// @route   GET /api/contacts/export/xlsx
+// @access  Private
+exports.exportXLSX = async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    const contacts = await Contact.find({ userId }).populate('tags').lean();
+
+    const xlsxBuffer = exportService.toXLSX(contacts);
+
+    await activityLogger.log({
+      userId,
+      action: 'export_xlsx',
+      entityType: 'contact',
+      metadata: { count: contacts.length }
+    }, req);
+
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    res.setHeader('Content-Disposition', 'attachment; filename=contacts.xlsx');
+    res.status(200).send(xlsxBuffer);
+  } catch (error) {
+    next(error);
+  }
+};
+
 // @desc    Get contact statistics
 // @route   GET /api/contacts/stats
 // @access  Private

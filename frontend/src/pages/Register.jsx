@@ -37,10 +37,10 @@ export default function Register() {
         <aside className="hidden bg-gradient-to-br from-[#4f0ca7] via-[#6017c7] to-[#8f4cf6] text-white lg:flex lg:items-center lg:justify-center">
           <div className="mx-auto max-w-sm px-10 text-center">
             <div className="mx-auto mb-6 flex h-28 w-28 items-center justify-center rounded-full bg-white">
-              <span className="text-5xl font-bold text-[#2092e9]">De</span>
+              <span className="text-4xl font-bold text-[#2092e9]">De</span>
             </div>
-            <h1 className="text-6xl font-semibold tracking-tight">Dexi</h1>
-            <p className="mt-8 text-3xl font-medium leading-tight text-[#d9b6ff]">
+            <h1 className="text-4xl font-semibold tracking-tight">Dexi</h1>
+            <p className="mt-8 text-xl font-medium leading-tight text-[#d9b6ff]">
               AI-Powered Business Card Digitizer. Scan, organize, and export your contacts effortlessly.
             </p>
           </div>
@@ -49,21 +49,21 @@ export default function Register() {
         <section className="flex items-center justify-center px-6 py-10 sm:px-8">
           <div className="w-full max-w-[520px] rounded-[24px] bg-[#ede6f7] p-8 shadow-[0_18px_50px_rgba(52,20,99,0.08)] sm:p-10">
             <div>
-              <h2 className="text-5xl font-semibold tracking-tight text-[#1c1b26]">Create your account</h2>
-              <p className="mt-4 text-2xl text-[#595668]">Start digitizing cards in seconds</p>
+              <h2 className="text-3xl font-semibold tracking-tight text-[#1c1b26]">Create your account</h2>
+              <p className="mt-3 text-base text-[#595668]">Start digitizing cards in seconds</p>
             </div>
 
             <div className="mt-9 grid grid-cols-1 gap-3 sm:grid-cols-2">
               <button
                 type="button"
-                className="flex items-center justify-center gap-2 rounded-xl border border-[#cfc9da] bg-white px-4 py-3 text-lg font-medium text-[#2f2c3d] transition hover:bg-[#faf9fd]"
+                className="flex items-center justify-center gap-2 rounded-xl border border-[#cfc9da] bg-white px-4 py-3 text-base font-medium text-[#2f2c3d] transition hover:bg-[#faf9fd]"
               >
                 <span className="text-[#4285F4]">G</span>
                 Google
               </button>
               <button
                 type="button"
-                className="flex items-center justify-center gap-2 rounded-xl border border-[#cfc9da] bg-white px-4 py-3 text-lg font-medium text-[#2f2c3d] transition hover:bg-[#faf9fd]"
+                className="flex items-center justify-center gap-2 rounded-xl border border-[#cfc9da] bg-white px-4 py-3 text-base font-medium text-[#2f2c3d] transition hover:bg-[#faf9fd]"
               >
                 <span>Apple</span>
               </button>
@@ -84,7 +84,7 @@ export default function Register() {
                   type="text"
                   required
                   autoComplete="name"
-                  className="w-full rounded-xl border border-[#cfc9da] bg-white py-3 pl-12 pr-4 text-lg text-[#22202f] placeholder:text-[#8f8a9d] focus:border-[#7c3aed] focus:outline-none"
+                  className="w-full rounded-xl border border-[#cfc9da] bg-white py-3 pl-12 pr-4 text-base text-[#22202f] placeholder:text-[#8f8a9d] focus:border-[#7c3aed] focus:outline-none"
                   placeholder="Full name"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -99,7 +99,7 @@ export default function Register() {
                   type="email"
                   required
                   autoComplete="email"
-                  className="w-full rounded-xl border border-[#cfc9da] bg-white py-3 pl-12 pr-4 text-lg text-[#22202f] placeholder:text-[#8f8a9d] focus:border-[#7c3aed] focus:outline-none"
+                  className="w-full rounded-xl border border-[#cfc9da] bg-white py-3 pl-12 pr-4 text-base text-[#22202f] placeholder:text-[#8f8a9d] focus:border-[#7c3aed] focus:outline-none"
                   placeholder="Email address"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -116,7 +116,7 @@ export default function Register() {
                   required
                   minLength="6"
                   autoComplete="new-password"
-                  className="w-full rounded-xl border border-[#cfc9da] bg-white py-3 pl-12 pr-12 text-lg text-[#22202f] placeholder:text-[#8f8a9d] focus:border-[#7c3aed] focus:outline-none"
+                  className="w-full rounded-xl border border-[#cfc9da] bg-white py-3 pl-12 pr-12 text-base text-[#22202f] placeholder:text-[#8f8a9d] focus:border-[#7c3aed] focus:outline-none"
                   placeholder="Password"
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
@@ -133,7 +133,7 @@ export default function Register() {
                   required
                   minLength="6"
                   autoComplete="new-password"
-                  className="w-full rounded-xl border border-[#cfc9da] bg-white py-3 pl-12 pr-12 text-lg text-[#22202f] placeholder:text-[#8f8a9d] focus:border-[#7c3aed] focus:outline-none"
+                  className="w-full rounded-xl border border-[#cfc9da] bg-white py-3 pl-12 pr-12 text-base text-[#22202f] placeholder:text-[#8f8a9d] focus:border-[#7c3aed] focus:outline-none"
                   placeholder="Confirm Password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
@@ -143,12 +143,12 @@ export default function Register() {
               <button
                 type="submit"
                 disabled={loading}
-                className="mt-4 w-full rounded-xl bg-gradient-to-r from-[#5f16bf] to-[#8b3efb] py-3 text-2xl font-semibold text-white shadow-[0_10px_24px_rgba(99,38,184,0.28)] transition hover:brightness-105 disabled:opacity-50"
+                className="mt-4 w-full rounded-xl bg-gradient-to-r from-[#5f16bf] to-[#8b3efb] py-3 text-lg font-semibold text-white shadow-[0_10px_24px_rgba(99,38,184,0.28)] transition hover:brightness-105 disabled:opacity-50"
               >
                 {loading ? 'Creating account...' : 'Create Account'}
               </button>
 
-              <p className="pt-2 text-center text-2xl text-[#4b4859]">
+              <p className="pt-2 text-center text-base text-[#4b4859]">
                 Already have an account?{' '}
                 <Link to="/login" className="font-semibold text-[#651ad3] hover:text-[#7c32e9]">
                   Login

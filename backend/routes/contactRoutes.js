@@ -9,6 +9,7 @@ const {
   toggleFavorite,
   exportCSV,
   exportVCard,
+  exportXLSX,
   getStats
 } = require('../controllers/contactController');
 
@@ -16,6 +17,7 @@ const {
 router.get('/', protect, getContacts);
 router.get('/stats', protect, getStats);
 router.get('/export/csv', protect, exportCSV);
+router.get('/export/xlsx', protect, exportXLSX);
 router.get('/export/vcard', protect, exportVCard);
 router.get('/:id', protect, getContact);
 router.put('/:id', protect, updateContact);

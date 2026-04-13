@@ -29,14 +29,14 @@ export default function UserLayout({ children }) {
           <div className="flex items-center gap-3 text-white">
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-sm font-extrabold text-[#278fe5]">De</div>
             <div>
-                <p className="text-[40px] font-semibold leading-none">Dexi</p>
+                <p className="text-2xl font-semibold leading-none">Dexi</p>
                 <p className="mt-1 text-xs text-[#e2c8ff]">AI Card Digitizer</p>
             </div>
           </div>
 
           <div className="flex items-center gap-3 text-white">
               <div className="flex h-9 w-9 items-center justify-center rounded-full bg-black text-xs font-semibold">U</div>
-              <span className="text-[32px] font-semibold">{userName}</span>
+              <span className="text-base font-semibold">{userName}</span>
           </div>
         </div>
       </header>
@@ -52,7 +52,7 @@ export default function UserLayout({ children }) {
                   <Link
                     key={item.path}
                     to={item.path}
-                    className={`flex items-center rounded-lg px-5 py-3.5 text-[34px] font-medium transition ${
+                    className={`flex items-center rounded-lg px-5 py-3.5 text-base font-medium transition ${
                       isActive
                         ? 'bg-[#9e57ff] text-white shadow-[0_8px_18px_rgba(123,50,243,0.45)]'
                         : 'text-[#f3e8ff] hover:bg-white/10'
@@ -67,7 +67,7 @@ export default function UserLayout({ children }) {
 
             <button
               onClick={handleLogout}
-              className="mt-auto flex items-center rounded-lg px-5 py-3.5 text-[34px] font-medium text-[#f3e8ff] transition hover:bg-white/10"
+              className="mt-auto flex items-center rounded-lg px-5 py-3.5 text-base font-medium text-[#f3e8ff] transition hover:bg-white/10"
             >
               <LogOut className="mr-3 h-5 w-5" />
               Sign out

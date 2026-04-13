@@ -1,3 +1,5 @@
+const XLSX = require('xlsx');
+
 class ExportService {
   /**
    * Convert contacts to CSV format
@@ -80,6 +82,32 @@ class ExportService {
 
     const vCards = contacts.map(contact => this.createVCard(contact));
     return vCards.join('\n\n');
+  }
+
+  /**
+   * Convert contacts to XLSX buffer
+   * @param {Array} contacts - Array of contact objects
+   * @returns {Buffer} - XLSX file buffer
+   */
+  toXLSX(contacts) {
+    const rows = (contacts || []).map((contact) => ({
+      'Full Name': contact.fullName || '',
+      Designation: contact.designation || '',
+      Company: contact.company || '',
+      Email: contact.email || '',
+      Phone: contact.phone || '',
+      Website: contact.website || '',
+      Address: contact.address || '',
+      Tags: contact.tags?.map(tag => tag.tagName || tag).join('; ') || '',
+      'Is Favorite': contact.isFavorite ? 'Yes' : 'No',
+      'Created At': contact.createdAt ? new Date(contact.createdAt).toLocaleDateString() : ''
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(rows);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Contacts');
+
+    return XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' });
   }
 
   /**

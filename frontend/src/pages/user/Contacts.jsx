@@ -39,7 +39,8 @@ export default function Contacts() {
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement('a');
       link.href = url;
-      link.setAttribute('download', `contacts.${format === 'csv' ? 'csv' : 'vcf'}`);
+      const extension = format === 'xlsx' ? 'xlsx' : format === 'csv' ? 'csv' : 'vcf';
+      link.setAttribute('download', `contacts.${extension}`);
       document.body.appendChild(link);
       link.click();
       link.remove();
@@ -76,7 +77,7 @@ export default function Contacts() {
             Full spreadsheet with all contact fields, formatted columns, and filters.
           </p>
           <button
-            onClick={() => handleExport('csv')}
+            onClick={() => handleExport('xlsx')}
             className="mt-6 inline-flex w-full items-center justify-center rounded-xl border border-[#c8c8d1] px-4 py-2 text-[22px] font-medium text-[#323241] transition hover:bg-[#f7f7fb]"
           >
             <Download className="mr-2 h-4 w-4" />
