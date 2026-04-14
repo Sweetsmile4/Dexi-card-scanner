@@ -65,20 +65,20 @@ export default function Contacts() {
 
   return (
     <div className="space-y-8">
-      <h1 className="text-[50px] font-bold text-[#11121a]">Export Manager</h1>
+      <h1 className="text-3xl font-bold text-[#11121a]">Export Manager</h1>
 
       <section className="grid grid-cols-1 gap-4 md:grid-cols-3">
         <article className="rounded-2xl border border-[#cfcfd4] bg-white p-5">
           <div className="mb-4 inline-flex rounded-xl bg-[#e9d8ff] p-3 text-[#7a2af6]">
             <FileSpreadsheet className="h-7 w-7" />
           </div>
-          <h2 className="text-[34px] font-semibold text-[#1a1b25]">Excel (.xlsx)</h2>
-          <p className="mt-2 text-[24px] leading-relaxed text-[#666672]">
+          <h2 className="text-xl font-semibold text-[#1a1b25]">Excel (.xlsx)</h2>
+          <p className="mt-2 text-sm leading-relaxed text-[#666672]">
             Full spreadsheet with all contact fields, formatted columns, and filters.
           </p>
           <button
             onClick={() => handleExport('xlsx')}
-            className="mt-6 inline-flex w-full items-center justify-center rounded-xl border border-[#c8c8d1] px-4 py-2 text-[22px] font-medium text-[#323241] transition hover:bg-[#f7f7fb]"
+            className="mt-6 inline-flex w-full items-center justify-center rounded-xl border border-[#c8c8d1] px-4 py-2 text-base font-medium text-[#323241] transition hover:bg-[#f7f7fb]"
           >
             <Download className="mr-2 h-4 w-4" />
             Download
@@ -89,13 +89,13 @@ export default function Contacts() {
           <div className="mb-4 inline-flex rounded-xl bg-[#e9d8ff] p-3 text-[#7a2af6]">
             <FileText className="h-7 w-7" />
           </div>
-          <h2 className="text-[34px] font-semibold text-[#1a1b25]">CSV (.csv)</h2>
-          <p className="mt-2 text-[24px] leading-relaxed text-[#666672]">
+          <h2 className="text-xl font-semibold text-[#1a1b25]">CSV (.csv)</h2>
+          <p className="mt-2 text-sm leading-relaxed text-[#666672]">
             Comma-separated values compatible with any spreadsheet or CRM tool.
           </p>
           <button
             onClick={() => handleExport('csv')}
-            className="mt-6 inline-flex w-full items-center justify-center rounded-xl border border-[#c8c8d1] px-4 py-2 text-[22px] font-medium text-[#323241] transition hover:bg-[#f7f7fb]"
+            className="mt-6 inline-flex w-full items-center justify-center rounded-xl border border-[#c8c8d1] px-4 py-2 text-base font-medium text-[#323241] transition hover:bg-[#f7f7fb]"
           >
             <Download className="mr-2 h-4 w-4" />
             Download
@@ -106,13 +106,13 @@ export default function Contacts() {
           <div className="mb-4 inline-flex rounded-xl bg-[#e9d8ff] p-3 text-[#7a2af6]">
             <FileType2 className="h-7 w-7" />
           </div>
-          <h2 className="text-[34px] font-semibold text-[#1a1b25]">vCard (.vcf)</h2>
-          <p className="mt-2 text-[24px] leading-relaxed text-[#666672]">
+          <h2 className="text-xl font-semibold text-[#1a1b25]">vCard (.vcf)</h2>
+          <p className="mt-2 text-sm leading-relaxed text-[#666672]">
             Contact card format for quick import into phone, mail apps, and address books.
           </p>
           <button
             onClick={() => handleExport('vcard')}
-            className="mt-6 inline-flex w-full items-center justify-center rounded-xl border border-[#c8c8d1] px-4 py-2 text-[22px] font-medium text-[#323241] transition hover:bg-[#f7f7fb]"
+            className="mt-6 inline-flex w-full items-center justify-center rounded-xl border border-[#c8c8d1] px-4 py-2 text-base font-medium text-[#323241] transition hover:bg-[#f7f7fb]"
           >
             <Download className="mr-2 h-4 w-4" />
             Download
@@ -122,8 +122,8 @@ export default function Contacts() {
 
       <section className="space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-[42px] font-semibold text-[#151623]">Scanned Cards</h2>
-          <span className="text-[22px] text-[#666672]">{contacts.length} card(s)</span>
+          <h2 className="text-2xl font-semibold text-[#151623]">Scanned Cards</h2>
+          <span className="text-sm text-[#666672]">{contacts.length} card(s)</span>
         </div>
 
         <div className="relative">
@@ -131,7 +131,7 @@ export default function Contacts() {
           <input
             type="text"
             placeholder="Search contacts..."
-            className="w-full rounded-xl border border-[#c8c8d1] bg-white py-3 pl-12 pr-4 text-[24px] text-[#21222d] placeholder:text-[#9a9aa6] focus:border-[#7a2af6] focus:outline-none"
+            className="w-full rounded-xl border border-[#c8c8d1] bg-white py-3 pl-12 pr-4 text-base text-[#21222d] placeholder:text-[#9a9aa6] focus:border-[#7a2af6] focus:outline-none"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -149,13 +149,13 @@ export default function Contacts() {
                       className="h-full w-full object-cover"
                     />
                   ) : (
-                    <div className="flex h-full items-center justify-center text-[18px] text-[#8f8f9a]">No preview image</div>
+                    <div className="flex h-full items-center justify-center text-sm text-[#8f8f9a]">No preview image</div>
                   )}
                 </div>
-                <h3 className="line-clamp-1 text-[34px] font-semibold text-[#1a1b26]">{contact.fullName || 'Unnamed Contact'}</h3>
-                <p className="line-clamp-1 text-[24px] text-[#60606d]">{contact.designation || 'No designation'}</p>
-                <p className="line-clamp-1 text-[24px] text-[#60606d]">{contact.company || 'No company'}</p>
-                <div className="mt-3 space-y-1 text-[22px] text-[#40404d]">
+                <h3 className="line-clamp-1 text-lg font-semibold text-[#1a1b26]">{contact.fullName || 'Unnamed Contact'}</h3>
+                <p className="line-clamp-1 text-sm text-[#60606d]">{contact.designation || 'No designation'}</p>
+                <p className="line-clamp-1 text-sm text-[#60606d]">{contact.company || 'No company'}</p>
+                <div className="mt-3 space-y-1 text-sm text-[#40404d]">
                   {contact.email && <p className="line-clamp-1">{contact.email}</p>}
                   {contact.phone && <p className="line-clamp-1">{contact.phone}</p>}
                 </div>
@@ -163,7 +163,7 @@ export default function Contacts() {
 
               <button
                 onClick={() => handleDelete(contact._id)}
-                className="mt-4 inline-flex items-center text-[22px] font-medium text-red-600 transition hover:text-red-700"
+                className="mt-4 inline-flex items-center text-sm font-medium text-red-600 transition hover:text-red-700"
               >
                 <Trash2 className="mr-1 h-4 w-4" />
                 Delete
@@ -175,7 +175,7 @@ export default function Contacts() {
 
       {contacts.length === 0 && (
         <div className="rounded-xl border border-[#d0d0d8] bg-white py-10 text-center">
-          <p className="text-[24px] text-[#666672]">No scanned cards found</p>
+          <p className="text-base text-[#666672]">No scanned cards found</p>
         </div>
       )}
     </div>
